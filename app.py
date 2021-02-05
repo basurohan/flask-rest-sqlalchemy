@@ -3,12 +3,14 @@ from flask_restful import Api
 from flask_jwt import JWT
 
 from db import db
-from resource import ItemResource, ItemListResource, RegisterUser, StoreResource, StoreListResource
+from resource import ItemResource, ItemListResource, RegisterUser, \
+    StoreResource, StoreListResource, UserResource
 from service import authenticate, identity
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['PROPAGATE_EXCEPTIONS'] = True
 app.secret_key = 'secret_key'
 api = Api(app)
 
@@ -22,6 +24,7 @@ def create_tables():
 
 jwt = JWT(app, authenticate, identity)  # /auth
 
+api.add_resource(UserResource, '/user/<int:user_id>')
 api.add_resource(RegisterUser, '/register')
 api.add_resource(StoreResource, '/store/<string:name>')
 api.add_resource(StoreListResource, '/stores')

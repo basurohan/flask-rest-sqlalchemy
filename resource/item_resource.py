@@ -74,4 +74,4 @@ class ItemResource(Resource):
 class ItemListResource(Resource):
 
     def get(self):
-        return Item.find_all()
+        return {'items': [item.json() for item in Item.find_all()]}

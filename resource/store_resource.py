@@ -38,4 +38,4 @@ class StoreResource(Resource):
 class StoreListResource(Resource):
 
     def get(self):
-        return Store.find_all()
+        return {'stores': [store.json() for store in Store.find_all()]}
